@@ -9,6 +9,7 @@ from agents import (
 )
 
 from config import Config
+from study_chatbot.instructions import STUDY_AGENT_INSTRUCTIONS
 
 
 def create_study_agent() -> Agent[Any]:
@@ -30,7 +31,7 @@ def create_study_agent() -> Agent[Any]:
 
     study_agent = Agent(
         name="Study Agent",
-        instructions=("You are a helpful study assistant"),
+        instructions=STUDY_AGENT_INSTRUCTIONS,
         model=model,
     )
 

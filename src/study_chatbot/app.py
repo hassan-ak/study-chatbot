@@ -24,18 +24,7 @@ async def on_start():
 async def main(message: cl.Message) -> None:
     """Process incoming messages with the triage agent instead of echoing."""
     # Extract text from message safely
-    text = None
-    if isinstance(message.content, str) and message.content.strip():
-        text = message.content
-
-    if text is None:
-        payload = getattr(message, "data", None)
-        if isinstance(payload, dict):
-            for key in ("text", "message", "content"):
-                val = payload.get(key)
-                if isinstance(val, str) and val.strip():
-                    text = val
-                    break
+    text = message.content
 
     if not text:
         await cl.Message(content="Please send a short text question or request.").send()
@@ -47,7 +36,7 @@ async def main(message: cl.Message) -> None:
 
     agent = cast(Agent, cl.user_session.get("agent"))
     history = cl.user_session.get("chat_history") or []
-    history.append({"role": "user", "content": text})
+    history.append({"role": "user", "content": text})    
 
     try:
         result = await Runner.run(agent, history)
@@ -56,8 +45,7 @@ async def main(message: cl.Message) -> None:
         thinking.content = str(response)
         await thinking.send()
 
-        history.append({"role": "agent", "content": str(response)})
-        cl.user_session.set("chat_history", history)
+        cl.user_session.set("chat_history", result.to_input_list())
 
     except Exception as e:
         thinking.content = f"Error: {e}"
