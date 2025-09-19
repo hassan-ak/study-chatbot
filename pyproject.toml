@@ -1,0 +1,29 @@
+[project]
+name = "study-chatbot"
+version = "0.1.0"
+description = "A minimal echo chatbot built with Chainlit"
+readme = "README.md"
+authors = [
+    { name = "Hassan Ali Khan", email = "73381969+hassan-ak@users.noreply.github.com" }
+]
+requires-python = ">=3.13"
+dependencies = [
+    "chainlit>=2.8.0",
+    "openai-agents>=0.3.1",
+    "pytest>=8.4.2",
+    "python-dotenv>=1.1.1",
+    "rich>=14.1.0",
+]
+
+[project.optional-dependencies]
+test = [
+    "pytest>=7.0.0",
+    "pytest-asyncio>=0.21.0",
+]
+
+[project.scripts]
+study-chatbot = "study_chatbot:main"
+
+[build-system]
+requires = ["hatchling"]
+build-backend = "hatchling.build"
